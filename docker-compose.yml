@@ -1,0 +1,14 @@
+services:
+    database:
+        image: mysql:8.0
+        platform: linux/amd64
+        environment:
+            MYSQL_ROOT_PASSWORD: mysql
+        volumes:
+            - sylius-database-data:/var/lib/mysql:rw
+
+    mailhog:
+        image: mailhog/mailhog
+
+volumes:
+    sylius-database-data:
