@@ -14,8 +14,9 @@ use Sylius\Component\Order\Context\CartContextInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 use Webmozart\Assert\Assert;
@@ -28,19 +29,19 @@ final class AddGiftCardToOrderAction
 
     private CartContextInterface $cartContext;
 
-    private FlashBagInterface $flashBag;
-
     private GiftCardApplicatorInterface $giftCardApplicator;
 
     private RedirectUrlResolverInterface $redirectRouteResolver;
 
     private ?Environment $twig;
 
+    private RequestStack $requestStack;
+
     public function __construct(
         ViewHandlerInterface $viewHandler,
         FormFactoryInterface $formFactory,
         CartContextInterface $cartContext,
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         GiftCardApplicatorInterface $giftCardApplicator,
         RedirectUrlResolverInterface $redirectRouteResolver,
         Environment $twig = null,
@@ -48,7 +49,7 @@ final class AddGiftCardToOrderAction
         $this->viewHandler = $viewHandler;
         $this->formFactory = $formFactory;
         $this->cartContext = $cartContext;
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->giftCardApplicator = $giftCardApplicator;
         $this->redirectRouteResolver = $redirectRouteResolver;
         $this->twig = $twig;
@@ -72,7 +73,10 @@ final class AddGiftCardToOrderAction
             Assert::notNull($giftCard);
             $this->giftCardApplicator->apply($order, $giftCard);
 
-            $this->flashBag->add('success', 'setono_sylius_gift_card.gift_card_added');
+            $session = $this->requestStack->getSession();
+            if ($session instanceof FlashBagAwareSessionInterface) {
+                $session->getFlashBag()->add('success', 'setono_sylius_gift_card.gift_card_added');
+            }
 
             return new RedirectResponse($this->redirectRouteResolver->getUrlToRedirectTo($request, 'sylius_shop_cart_summary'));
         }

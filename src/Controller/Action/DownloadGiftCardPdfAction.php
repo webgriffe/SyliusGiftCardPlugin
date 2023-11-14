@@ -14,8 +14,9 @@ use Setono\SyliusGiftCardPlugin\Repository\GiftCardRepositoryInterface;
 use Setono\SyliusGiftCardPlugin\Security\GiftCardVoter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
@@ -26,8 +27,6 @@ final class DownloadGiftCardPdfAction
 
     private AuthorizationCheckerInterface $authChecker;
 
-    private FlashBagInterface $flashBag;
-
     private GiftCardChannelConfigurationProviderInterface $configurationProvider;
 
     private Environment $twig;
@@ -36,10 +35,12 @@ final class DownloadGiftCardPdfAction
 
     private UrlGeneratorInterface $urlGenerator;
 
+    private RequestStack $requestStack;
+
     public function __construct(
         GiftCardRepositoryInterface $giftCardRepository,
         AuthorizationCheckerInterface $authChecker,
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         GiftCardChannelConfigurationProviderInterface $configurationProvider,
         Environment $twig,
         Pdf $snappy,
@@ -47,11 +48,11 @@ final class DownloadGiftCardPdfAction
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->authChecker = $authChecker;
-        $this->flashBag = $flashBag;
         $this->configurationProvider = $configurationProvider;
         $this->twig = $twig;
         $this->snappy = $snappy;
         $this->urlGenerator = $urlGenerator;
+        $this->requestStack = $requestStack;
     }
 
     public function __invoke(Request $request, int $id): Response
@@ -86,7 +87,10 @@ final class DownloadGiftCardPdfAction
 
     private function sendErrorResponse(string $redirectUrl, string $message): RedirectResponse
     {
-        $this->flashBag->add('error', $message);
+        $session = $this->requestStack->getSession();
+        if ($session instanceof FlashBagAwareSessionInterface) {
+            $session->getFlashBag()->add('error', $message);
+        }
 
         return new RedirectResponse($redirectUrl);
     }

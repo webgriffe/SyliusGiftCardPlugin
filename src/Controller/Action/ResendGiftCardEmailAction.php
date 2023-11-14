@@ -13,8 +13,9 @@ use Setono\SyliusGiftCardPlugin\Repository\GiftCardRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class ResendGiftCardEmailAction
@@ -23,51 +24,61 @@ final class ResendGiftCardEmailAction
 
     private GiftCardRepositoryInterface $giftCardRepository;
 
-    private FlashBagInterface $flashBag;
-
     private UrlGeneratorInterface $router;
+
+    private RequestStack $requestStack;
 
     public function __construct(
         GiftCardEmailManagerInterface $giftCardEmailManager,
         GiftCardRepositoryInterface $giftCardRepository,
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         UrlGeneratorInterface $router,
     ) {
         $this->giftCardEmailManager = $giftCardEmailManager;
         $this->giftCardRepository = $giftCardRepository;
-        $this->flashBag = $flashBag;
         $this->router = $router;
+        $this->requestStack = $requestStack;
     }
 
     public function __invoke(Request $request, int $id): Response
     {
         $giftCard = $this->giftCardRepository->find($id);
         if (!$giftCard instanceof GiftCardInterface) {
-            $this->flashBag->add('error', [
-                'message' => 'setono_sylius_gift_card.gift_card.not_found',
-                'parameters' => ['%id%' => $id],
-            ]);
+            $session = $this->requestStack->getSession();
+            if ($session instanceof FlashBagAwareSessionInterface) {
+                $session->getFlashBag()->add('error', [
+                    'message' => 'setono_sylius_gift_card.gift_card.not_found',
+                    'parameters' => ['%id%' => $id],
+                ]);
+            }
 
             return new RedirectResponse($this->getRedirectRoute($request));
         }
+        $session = $this->requestStack->getSession();
 
         if ($giftCard->getOrder() instanceof OrderInterface) {
             $this->giftCardEmailManager->sendEmailWithGiftCardsFromOrder($giftCard->getOrder(), [$giftCard]);
-            $this->flashBag->add('success', [
-                'message' => 'setono_sylius_gift_card.gift_card.resent',
-                'parameters' => ['%id%' => $id],
-            ]);
+            if ($session instanceof FlashBagAwareSessionInterface) {
+                $session->getFlashBag()->add('success', [
+                    'message' => 'setono_sylius_gift_card.gift_card.resent',
+                    'parameters' => ['%id%' => $id],
+                ]);
+            }
         } elseif ($giftCard->getCustomer() instanceof CustomerInterface) {
             $this->giftCardEmailManager->sendEmailToCustomerWithGiftCard($giftCard->getCustomer(), $giftCard);
-            $this->flashBag->add('success', [
-                'message' => 'setono_sylius_gift_card.gift_card.resent',
-                'parameters' => ['%id%' => $id],
-            ]);
+            if ($session instanceof FlashBagAwareSessionInterface) {
+                $session->getFlashBag()->add('success', [
+                    'message' => 'setono_sylius_gift_card.gift_card.resent',
+                    'parameters' => ['%id%' => $id],
+                ]);
+            }
         } else {
-            $this->flashBag->add('error', [
-                'message' => 'setono_sylius_gift_card.gift_card.impossible_to_resend_email',
-                'parameters' => ['%id%' => $id],
-            ]);
+            if ($session instanceof FlashBagAwareSessionInterface) {
+                $session->getFlashBag()->add('error', [
+                    'message' => 'setono_sylius_gift_card.gift_card.impossible_to_resend_email',
+                    'parameters' => ['%id%' => $id],
+                ]);
+            }
         }
 
         return new RedirectResponse($this->getRedirectRoute($request));
