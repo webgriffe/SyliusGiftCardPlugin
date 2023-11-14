@@ -21,7 +21,7 @@ final class DisableOldGiftCardsCommand extends Command
 
     public function __construct(
         GiftCardRepositoryInterface $giftCardRepository,
-        ObjectManager $giftCardManager
+        ObjectManager $giftCardManager,
     ) {
         parent::__construct();
 
@@ -48,14 +48,14 @@ EOF
             null,
             InputOption::VALUE_OPTIONAL,
             'The date to disable gift cards older than.',
-            null
+            null,
         );
         $this->addOption(
             'period',
             null,
             InputOption::VALUE_OPTIONAL,
             'The period to disable gift cards older than.',
-            null
+            null,
         );
     }
 

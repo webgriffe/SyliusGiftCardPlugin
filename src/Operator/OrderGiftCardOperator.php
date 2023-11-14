@@ -34,7 +34,7 @@ final class OrderGiftCardOperator implements OrderGiftCardOperatorInterface
         GiftCardFactoryInterface $giftCardFactory,
         GiftCardRepositoryInterface $giftCardRepository,
         EntityManagerInterface $giftCardManager,
-        GiftCardEmailManagerInterface $giftCardOrderEmailManager
+        GiftCardEmailManagerInterface $giftCardOrderEmailManager,
     ) {
         $this->giftCardFactory = $giftCardFactory;
         $this->giftCardRepository = $giftCardRepository;

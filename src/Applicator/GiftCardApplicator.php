@@ -24,7 +24,7 @@ final class GiftCardApplicator implements GiftCardApplicatorInterface
     public function __construct(
         GiftCardRepositoryInterface $giftCardRepository,
         OrderProcessorInterface $orderProcessor,
-        ObjectManager $orderManager
+        ObjectManager $orderManager,
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->orderProcessor = $orderProcessor;

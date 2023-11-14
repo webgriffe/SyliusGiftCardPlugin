@@ -35,7 +35,7 @@ class GiftCardConfigurationExampleFactory extends AbstractExampleFactory impleme
         GiftCardConfigurationFactoryInterface $giftCardConfigurationFactory,
         FactoryInterface $imageFactory,
         ImageUploaderInterface $imageUploader,
-        FileLocatorInterface $fileLocator
+        FileLocatorInterface $fileLocator,
     ) {
         $this->giftCardConfigurationRepository = $giftCardConfigurationRepository;
         $this->giftCardConfigurationFactory = $giftCardConfigurationFactory;

@@ -26,7 +26,7 @@ final class GiftCardBalanceAction
     public function __construct(
         GiftCardRepositoryInterface $giftCardRepository,
         ViewHandlerInterface $viewHandler,
-        Environment $twig = null
+        Environment $twig = null,
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->viewHandler = $viewHandler;
@@ -36,7 +36,7 @@ final class GiftCardBalanceAction
     public function __invoke(Request $request): Response
     {
         $giftCardBalanceCollection = GiftCardBalanceCollection::createFromGiftCards(
-            $this->giftCardRepository->findEnabled()
+            $this->giftCardRepository->findEnabled(),
         );
 
         if (null !== $this->twig) {

@@ -28,7 +28,7 @@ final class RemoveGiftCardFromOrderAction
         CartContextInterface $cartContext,
         FlashBagInterface $flashBag,
         GiftCardApplicatorInterface $giftCardApplicator,
-        RedirectUrlResolverInterface $redirectRouteResolver
+        RedirectUrlResolverInterface $redirectRouteResolver,
     ) {
         $this->cartContext = $cartContext;
         $this->flashBag = $flashBag;

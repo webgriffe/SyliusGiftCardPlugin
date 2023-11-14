@@ -15,7 +15,7 @@ final class ManagingGiftCardsContext implements Context
     private $createGiftCardPage;
 
     public function __construct(
-        CreateSimpleProductPageInterface $createGiftCardPage
+        CreateSimpleProductPageInterface $createGiftCardPage,
     ) {
         $this->createGiftCardPage = $createGiftCardPage;
     }

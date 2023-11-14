@@ -23,7 +23,7 @@ final class SearchGiftCardAction
     public function __construct(
         ViewHandlerInterface $viewHandler,
         FormFactoryInterface $formFactory,
-        Environment $twig = null
+        Environment $twig = null,
     ) {
         $this->viewHandler = $viewHandler;
         $this->formFactory = $formFactory;

@@ -17,7 +17,7 @@ final class CustomerChannelResolver implements CustomerChannelResolverInterface
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        ChannelRepositoryInterface $channelRepository
+        ChannelRepositoryInterface $channelRepository,
     ) {
         $this->orderRepository = $orderRepository;
         $this->channelRepository = $channelRepository;

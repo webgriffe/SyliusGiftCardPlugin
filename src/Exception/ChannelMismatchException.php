@@ -19,7 +19,7 @@ final class ChannelMismatchException extends InvalidArgumentException implements
         parent::__construct(sprintf(
             'Expected channel was "%s", given "%s"',
             (string) $expectedChannel->getName(),
-            (string) $actualChannel->getName()
+            (string) $actualChannel->getName(),
         ));
         $this->actualChannel = $actualChannel;
         $this->expectedChannel = $expectedChannel;

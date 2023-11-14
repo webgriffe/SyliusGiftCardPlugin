@@ -41,7 +41,7 @@ class GiftCardExampleFactory extends AbstractExampleFactory implements ExampleFa
         FactoryInterface $giftCardFactory,
         GiftCardCodeGeneratorInterface $giftCardCodeGenerator,
         ChannelRepositoryInterface $channelRepository,
-        RepositoryInterface $currencyRepository
+        RepositoryInterface $currencyRepository,
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->giftCardFactory = $giftCardFactory;
@@ -130,7 +130,7 @@ class GiftCardExampleFactory extends AbstractExampleFactory implements ExampleFa
                 Assert::notNull($currency, sprintf(
                     'Currency %s was not found. Use one of: %s',
                     $currencyCode,
-                    implode(', ', $channelCurrenciesCodes)
+                    implode(', ', $channelCurrenciesCodes),
                 ));
 
                 Assert::isInstanceOf($channel, ChannelInterface::class);
@@ -138,7 +138,7 @@ class GiftCardExampleFactory extends AbstractExampleFactory implements ExampleFa
                 Assert::oneOf($currency, $channel->getCurrencies()->toArray(), sprintf(
                     'Expecting one of %s currencies, got: %s',
                     implode(', ', $channelCurrenciesCodes),
-                    $currencyCode
+                    $currencyCode,
                 ));
 
                 return $currency;

@@ -26,7 +26,7 @@ final class EmailContext implements Context
     public function __construct(
         EmailCheckerInterface $emailChecker,
         OrderRepositoryInterface $orderRepository,
-        GiftCardRepository $giftCardRepository
+        GiftCardRepository $giftCardRepository,
     ) {
         $this->emailChecker = $emailChecker;
         $this->orderRepository = $orderRepository;

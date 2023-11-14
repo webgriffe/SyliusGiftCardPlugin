@@ -19,7 +19,7 @@ final class GiftCardToCodeDataTransformer implements DataTransformerInterface
 
     public function __construct(
         GiftCardRepositoryInterface $giftCardRepository,
-        ChannelContextInterface $channelContext
+        ChannelContextInterface $channelContext,
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->channelContext = $channelContext;
@@ -47,7 +47,7 @@ final class GiftCardToCodeDataTransformer implements DataTransformerInterface
 
         $giftCard = $this->giftCardRepository->findOneEnabledByCodeAndChannel(
             $value,
-            $this->channelContext->getChannel()
+            $this->channelContext->getChannel(),
         );
 
         if (null !== $giftCard) {

@@ -31,7 +31,7 @@ final class CheckoutContext implements Context
         CheckoutCompleteContext $checkoutCompleteContext,
         OrderContext $orderContext,
         OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $giftCardManager
+        EntityManagerInterface $giftCardManager,
     ) {
         $this->checkoutCompleteContext = $checkoutCompleteContext;
         $this->orderContext = $orderContext;

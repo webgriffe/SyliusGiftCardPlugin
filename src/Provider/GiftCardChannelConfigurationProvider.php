@@ -29,7 +29,7 @@ final class GiftCardChannelConfigurationProvider implements GiftCardChannelConfi
         RepositoryInterface $configurationRepository,
         RepositoryInterface $defaultConfigurationRepository,
         LocaleContextInterface $localeContext,
-        RepositoryInterface $localeRepository
+        RepositoryInterface $localeRepository,
     ) {
         $this->configurationRepository = $configurationRepository;
         $this->defaultConfigurationRepository = $defaultConfigurationRepository;

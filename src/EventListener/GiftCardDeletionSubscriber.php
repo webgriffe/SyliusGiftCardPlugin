@@ -28,7 +28,7 @@ final class GiftCardDeletionSubscriber implements EventSubscriberInterface
         if (!$giftCard instanceof GiftCardInterface) {
             throw new UnexpectedTypeException(
                 $giftCard,
-                GiftCardInterface::class
+                GiftCardInterface::class,
             );
         }
 

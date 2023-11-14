@@ -19,6 +19,7 @@ trait OrderTrait
      * @var Collection|GiftCardInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Setono\SyliusGiftCardPlugin\Model\GiftCardInterface", inversedBy="appliedOrders")
+     *
      * @ORM\JoinTable(name="setono_sylius_gift_card__order_gift_cards",
      *     joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="gift_card_id", referencedColumnName="id", onDelete="CASCADE")}

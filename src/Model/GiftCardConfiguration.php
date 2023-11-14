@@ -13,7 +13,6 @@ use Sylius\Component\Resource\Model\ToggleableTrait;
 class GiftCardConfiguration implements GiftCardConfigurationInterface
 {
     use TimestampableTrait;
-
     use ToggleableTrait;
 
     protected ?int $id = null;
@@ -22,14 +21,12 @@ class GiftCardConfiguration implements GiftCardConfigurationInterface
 
     /**
      * @var ImageInterface[]|Collection
-     *
      * @psalm-var Collection<array-key, ImageInterface>
      */
     protected Collection $images;
 
     /**
      * @var GiftCardChannelConfigurationInterface[]|Collection
-     *
      * @psalm-var Collection<array-key, GiftCardChannelConfigurationInterface>
      */
     protected Collection $channelConfigurations;

@@ -30,7 +30,7 @@ final class GiftCardContext implements Context
         SharedStorageInterface $sharedStorage,
         GiftCardRepositoryInterface $giftCardRepository,
         GiftCardFactoryInterface $giftCardFactory,
-        ObjectManager $productManager
+        ObjectManager $productManager,
     ) {
         $this->sharedStorage = $sharedStorage;
         $this->giftCardRepository = $giftCardRepository;

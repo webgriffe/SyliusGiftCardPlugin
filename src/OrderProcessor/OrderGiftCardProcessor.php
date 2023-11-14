@@ -20,7 +20,7 @@ final class OrderGiftCardProcessor implements OrderProcessorInterface
 
     public function __construct(
         TranslatorInterface $translator,
-        AdjustmentFactoryInterface $adjustmentFactory
+        AdjustmentFactoryInterface $adjustmentFactory,
     ) {
         $this->translator = $translator;
         $this->adjustmentFactory = $adjustmentFactory;
@@ -56,7 +56,7 @@ final class OrderGiftCardProcessor implements OrderProcessorInterface
             $adjustment = $this->adjustmentFactory->createWithData(
                 AdjustmentInterface::ORDER_GIFT_CARD_ADJUSTMENT,
                 $this->translator->trans('setono_sylius_gift_card.ui.gift_card'),
-                -1 * $amount
+                -1 * $amount,
             );
 
             $adjustment->setOriginCode($giftCard->getCode());

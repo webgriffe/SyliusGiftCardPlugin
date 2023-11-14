@@ -23,7 +23,7 @@ final class GiftCardEmailManager implements GiftCardEmailManagerInterface
     public function __construct(
         SenderInterface $sender,
         LocaleAwareInterface $translator,
-        CustomerChannelResolverInterface $customerChannelResolver
+        CustomerChannelResolverInterface $customerChannelResolver,
     ) {
         $this->sender = $sender;
         $this->translator = $translator;
@@ -54,7 +54,7 @@ final class GiftCardEmailManager implements GiftCardEmailManagerInterface
                     'channel' => $channel,
                     // We still need to inject locale to templates because layout is using it
                     'localeCode' => $defaultLocale->getCode(),
-                ]
+                ],
             );
         });
     }
@@ -91,7 +91,7 @@ final class GiftCardEmailManager implements GiftCardEmailManagerInterface
                     'channel' => $channel,
                     // We still need to inject locale to templates because layout is using it
                     'localeCode' => $order->getLocaleCode(),
-                ]
+                ],
             );
         });
     }

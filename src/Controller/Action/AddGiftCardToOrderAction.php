@@ -43,7 +43,7 @@ final class AddGiftCardToOrderAction
         FlashBagInterface $flashBag,
         GiftCardApplicatorInterface $giftCardApplicator,
         RedirectUrlResolverInterface $redirectRouteResolver,
-        Environment $twig = null
+        Environment $twig = null,
     ) {
         $this->viewHandler = $viewHandler;
         $this->formFactory = $formFactory;

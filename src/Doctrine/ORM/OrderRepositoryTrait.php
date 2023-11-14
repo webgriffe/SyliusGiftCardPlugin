@@ -44,6 +44,6 @@ trait OrderRepositoryTrait
         return $this->createQueryBuilderByGiftCard($giftCardId)
             ->andWhere('o.checkoutState = :checkoutState')
             ->setParameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED)
-            ;
+        ;
     }
 }

@@ -43,7 +43,7 @@ final class DownloadGiftCardPdfAction
         GiftCardChannelConfigurationProviderInterface $configurationProvider,
         Environment $twig,
         Pdf $snappy,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
     ) {
         $this->giftCardRepository = $giftCardRepository;
         $this->authChecker = $authChecker;
@@ -72,7 +72,7 @@ final class DownloadGiftCardPdfAction
         if (!$configuration instanceof GiftCardConfigurationInterface) {
             return $this->sendErrorResponse(
                 $redirectUrl,
-                'Configuration not found for this gift card. Create one by going to the gift card configuration.'
+                'Configuration not found for this gift card. Create one by going to the gift card configuration.',
             );
         }
 

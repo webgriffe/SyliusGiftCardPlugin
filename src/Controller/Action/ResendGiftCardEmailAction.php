@@ -31,7 +31,7 @@ final class ResendGiftCardEmailAction
         GiftCardEmailManagerInterface $giftCardEmailManager,
         GiftCardRepositoryInterface $giftCardRepository,
         FlashBagInterface $flashBag,
-        UrlGeneratorInterface $router
+        UrlGeneratorInterface $router,
     ) {
         $this->giftCardEmailManager = $giftCardEmailManager;
         $this->giftCardRepository = $giftCardRepository;
