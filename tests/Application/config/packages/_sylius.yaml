@@ -1,8 +1,11 @@
 imports:
     - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
+
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
-    - { resource: "@SyliusAdminApiBundle/Resources/config/app/config.yml" }
+
     - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
+
+    - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
 
 parameters:
     sylius_core.public_dir: '%kernel.project_dir%/public'
@@ -10,6 +13,9 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
+
+sylius_api:
+    enabled: true
 
 sylius_core:
     resources:
@@ -33,7 +39,7 @@ sylius_order:
         order_item_unit:
             classes:
                 model: Tests\Setono\SyliusGiftCardPlugin\Application\Model\OrderItemUnit
-                
+
 sylius_product:
     resources:
         product:
