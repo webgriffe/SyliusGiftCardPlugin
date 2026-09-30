@@ -81,7 +81,7 @@
         "symfony/intl": "^7.4",
         "symfony/web-profiler-bundle": "^7.4",
         "symfony/webpack-encore-bundle": "^2.2",
-        "vimeo/psalm": "^6.13",
+        "vimeo/psalm": "^6.13 <6.19",
         "weirdan/doctrine-psalm-plugin": "^2.10"
     },
     "prefer-stable": true,
