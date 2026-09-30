@@ -86,7 +86,7 @@ sylius_grid:
                     configuration:
                         type: default
                         label: setono_sylius_gift_card.ui.configuration
-                        icon: cog
+                        icon: tabler:settings
                         options:
                             link:
                                 route: setono_sylius_gift_card_admin_gift_card_configuration_index
