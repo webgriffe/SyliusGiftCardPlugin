@@ -84,6 +84,9 @@
         "vimeo/psalm": "^6.13 <6.19",
         "weirdan/doctrine-psalm-plugin": "^2.10"
     },
+    "conflict": {
+        "doctrine/orm": ">=3.7"
+    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
