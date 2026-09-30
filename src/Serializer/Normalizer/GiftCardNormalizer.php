@@ -8,11 +8,11 @@ use ArrayObject;
 use Setono\SyliusGiftCardPlugin\Exception\UnexpectedTypeException;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardInterface;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Webmozart\Assert\Assert;
 
-final class GiftCardNormalizer implements ContextAwareNormalizerInterface
+final class GiftCardNormalizer implements NormalizerInterface
 {
     private ObjectNormalizer $objectNormalizer;
 
@@ -25,12 +25,14 @@ final class GiftCardNormalizer implements ContextAwareNormalizerInterface
     }
 
     /**
-     * @param GiftCardInterface|mixed $object
-     * @param string $format
+     * @param GiftCardInterface|mixed $data
+     * @param array<string, mixed> $context
      */
-    public function normalize($object, $format = null, array $context = []): array
+    #[\Override]
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
-        Assert::isInstanceOf($object, GiftCardInterface::class);
+        Assert::isInstanceOf($data, GiftCardInterface::class);
+        $object = $data;
 
         $data = $this->objectNormalizer->normalize($object, $format, $context);
         if (!is_array($data) && !$data instanceof ArrayObject) {
@@ -47,14 +49,19 @@ final class GiftCardNormalizer implements ContextAwareNormalizerInterface
         return $data;
     }
 
-    /**
-     * @param mixed $data
-     * @param string $format
-     */
-    public function supportsNormalization($data, $format = null, array $context = []): bool
+    #[\Override]
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         $groups = (array) ($context['groups'] ?? []);
 
         return $data instanceof GiftCardInterface && in_array('setono:sylius-gift-card:render', $groups, true);
+    }
+
+    #[\Override]
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            GiftCardInterface::class => false,
+        ];
     }
 }

@@ -1,0 +1,5 @@
+knp_snappy:
+    pdf:
+        binary: '%env(KNP_SNAPPY_PDF_BINARY)%'
+    image:
+        binary: '%env(KNP_SNAPPY_IMAGE_BINARY)%'

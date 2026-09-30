@@ -21,7 +21,8 @@ final class StringFieldType implements FieldTypeInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public function render(Field $field, $data, array $options): string
+    #[\Override]
+    public function render(Field $field, mixed $data, array $options): string
     {
         try {
             if (!is_object($data) && !is_array($data)) {
@@ -38,6 +39,7 @@ final class StringFieldType implements FieldTypeInterface
         return htmlspecialchars((string) $value);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
     }

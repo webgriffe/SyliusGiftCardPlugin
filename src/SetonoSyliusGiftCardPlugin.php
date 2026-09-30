@@ -15,6 +15,7 @@ final class SetonoSyliusGiftCardPlugin extends AbstractResourceBundle
 {
     use SyliusPluginTrait;
 
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -23,10 +24,23 @@ final class SetonoSyliusGiftCardPlugin extends AbstractResourceBundle
         $container->addCompilerPass(new CreateServiceAliasesPass());
     }
 
+    #[\Override]
     public function getSupportedDrivers(): array
     {
         return [
             SyliusResourceBundle::DRIVER_DOCTRINE_ORM,
         ];
+    }
+
+    #[\Override]
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
+
+    #[\Override]
+    protected function getConfigFilesPath(): string
+    {
+        return sprintf('%s/config/doctrine/%s', $this->getPath(), strtolower($this->getDoctrineMappingDirectory()));
     }
 }

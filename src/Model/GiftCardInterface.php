@@ -23,6 +23,7 @@ interface GiftCardInterface extends ResourceInterface, ToggleableInterface, Code
 
     public function __toString(): string;
 
+    #[\Override]
     public function getId(): ?int;
 
     /**
@@ -70,6 +71,7 @@ interface GiftCardInterface extends ResourceInterface, ToggleableInterface, Code
      */
     public function setInitialAmount(int $initialAmount): void;
 
+    #[\Override]
     public function isEnabled(): bool;
 
     public function getCurrencyCode(): ?string;
@@ -127,7 +129,7 @@ interface GiftCardInterface extends ResourceInterface, ToggleableInterface, Code
 
     public function setExpiresAt(?\DateTimeInterface $expiresAt): void;
 
-    public function isExpired(\DateTimeInterface $date = null): bool;
+    public function isExpired(?\DateTimeInterface $date = null): bool;
 
     public function getSendNotificationEmail(): bool;
 

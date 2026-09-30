@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Setono\SyliusGiftCardPlugin\DependencyInjection;
 
+use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class SetonoSyliusGiftCardExtension extends AbstractResourceExtension
+final class SetonoSyliusGiftCardExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
+    use PrependDoctrineMigrationsTrait;
+
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         /**
@@ -30,7 +35,7 @@ final class SetonoSyliusGiftCardExtension extends AbstractResourceExtension
          * @psalm-suppress PossiblyNullArgument
          */
         $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $container->setParameter('setono_sylius_gift_card.code_length', $config['code_length']);
         $container->setParameter(
@@ -54,14 +59,43 @@ final class SetonoSyliusGiftCardExtension extends AbstractResourceExtension
             $config['pdf_rendering']['preferred_page_sizes'],
         );
 
-        // Load default CSS file
-        $container->setParameter(
-            'setono_sylius_gift_card.default_css_file',
-            '@SetonoSyliusGiftCardPlugin/Shop/GiftCard/defaultGiftCardConfiguration.css.twig',
-        );
-
         $this->registerResources('setono_sylius_gift_card', $config['driver'], $config['resources'], $container);
 
         $loader->load('services.xml');
+    }
+
+    #[\Override]
+    public function prepend(ContainerBuilder $container): void
+    {
+        $this->prependDoctrineMigrations($container);
+
+        // Ship the icons the plugin uses (e.g. "setono-gift-card:gift") so host apps don't depend on Iconify at runtime
+        $container->prependExtensionConfig('ux_icons', [
+            'icon_sets' => [
+                'setono-gift-card' => [
+                    'path' => __DIR__ . '/../../assets/icons',
+                ],
+            ],
+        ]);
+    }
+
+    #[\Override]
+    protected function getMigrationsNamespace(): string
+    {
+        return 'DoctrineMigrations';
+    }
+
+    #[\Override]
+    protected function getMigrationsDirectory(): string
+    {
+        return '@SetonoSyliusGiftCardPlugin/src/Migrations';
+    }
+
+    #[\Override]
+    protected function getNamespacesOfMigrationsExecutedBefore(): array
+    {
+        return [
+            'Sylius\Bundle\CoreBundle\Migrations',
+        ];
     }
 }

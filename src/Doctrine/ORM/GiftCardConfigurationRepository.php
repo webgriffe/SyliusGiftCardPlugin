@@ -13,16 +13,15 @@ use Webmozart\Assert\Assert;
 
 class GiftCardConfigurationRepository extends EntityRepository implements GiftCardConfigurationRepositoryInterface
 {
+    #[\Override]
     public function findOneByChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): ?GiftCardConfigurationInterface
     {
         $obj = $this->createQueryBuilder('o')
             ->join('o.channelConfigurations', 'c')
             ->andWhere('c.channel = :channel')
             ->andWhere('c.locale = :locale')
-            ->setParameters([
-                'channel' => $channel,
-                'locale' => $locale,
-            ])
+            ->setParameter('channel', $channel)
+            ->setParameter('locale', $locale)
             ->getQuery()
             ->getOneOrNullResult()
         ;
@@ -32,6 +31,7 @@ class GiftCardConfigurationRepository extends EntityRepository implements GiftCa
         return $obj;
     }
 
+    #[\Override]
     public function findDefault(): ?GiftCardConfigurationInterface
     {
         $obj = $this->findOneBy([

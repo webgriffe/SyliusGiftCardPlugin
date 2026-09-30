@@ -50,11 +50,12 @@ final class PdfRenderer implements PdfRendererInterface
         $this->normalizer = $normalizer;
     }
 
+    #[\Override]
     public function render(
         GiftCardInterface $giftCard,
-        GiftCardConfigurationInterface $giftCardConfiguration = null,
-        ChannelInterface $channel = null,
-        string $localeCode = null,
+        ?GiftCardConfigurationInterface $giftCardConfiguration = null,
+        ?ChannelInterface $channel = null,
+        ?string $localeCode = null,
     ): PdfResponse {
         if (null === $channel) {
             $order = $giftCard->getOrder();
