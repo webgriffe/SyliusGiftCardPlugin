@@ -11,7 +11,7 @@ setono_sylius_gift_card_admin_gift_card:
             all:
                 subheader: setono_sylius_gift_card.ui.manage_gift_cards
             index:
-                icon: 'gift'
+                icon: 'setono-gift-card:gift'
     type: sylius.resource
 
 setono_sylius_gift_card_admin_gift_card_pdf:
@@ -49,7 +49,7 @@ setono_sylius_gift_card_admin_gift_card_configuration:
             all:
                 subheader: setono_sylius_gift_card.ui.manage_gift_card_configurations
             index:
-                icon: 'gift'
+                icon: 'setono-gift-card:gift'
     type: sylius.resource
 
 # todo what is this route doing?

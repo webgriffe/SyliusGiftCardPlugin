@@ -68,6 +68,15 @@ final class SetonoSyliusGiftCardExtension extends AbstractResourceExtension impl
     public function prepend(ContainerBuilder $container): void
     {
         $this->prependDoctrineMigrations($container);
+
+        // Ship the icons the plugin uses (e.g. "setono-gift-card:gift") so host apps don't depend on Iconify at runtime
+        $container->prependExtensionConfig('ux_icons', [
+            'icon_sets' => [
+                'setono-gift-card' => [
+                    'path' => __DIR__ . '/../../assets/icons',
+                ],
+            ],
+        ]);
     }
 
     #[\Override]
