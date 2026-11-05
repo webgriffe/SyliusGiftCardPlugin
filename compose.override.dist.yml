@@ -1,0 +1,33 @@
+services:
+    php:
+        image: ghcr.io/sylius/sylius-php:8.4-xdebug-alpine
+        working_dir: /app
+        volumes:
+            - .:/app
+            - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+        environment:
+            APP_ENV: dev
+            DATABASE_URL: mysql://root@mysql/setono_sylius_gift_card_plugin_%kernel.environment%
+            BEHAT_BASE_URL: http://nginx/
+            BEHAT_CHROME_URL: http://chrome-proxy:9222
+            XDEBUG_CONFIG: >-
+                client_host=host.docker.internal
+                client_port=9003
+            PHP_IDE_CONFIG: serverName=SetonoSyliusGiftCardPlugin
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    mysql:
+        ports:
+            - ${MYSQL_PORT:-33062}:3306
+    nginx:
+        ports:
+            - ${NGINX_PORT:-8081}:80
+        environment:
+            WORKING_DIR: /app/vendor/sylius/test-application
+        volumes:
+            - .:/app
+    node:
+        image: node:22-alpine
+        working_dir: /app/vendor/sylius/test-application
+        volumes:
+            - .:/app

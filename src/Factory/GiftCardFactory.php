@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Setono\SyliusGiftCardPlugin\Factory;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use Setono\SyliusGiftCardPlugin\Generator\GiftCardCodeGeneratorInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardInterface;
 use Setono\SyliusGiftCardPlugin\Model\OrderItemUnitInterface;
 use Setono\SyliusGiftCardPlugin\Provider\GiftCardConfigurationProviderInterface;
-use Sylius\Bundle\ShippingBundle\Provider\DateTimeProvider;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Clock\ClockInterface;
 use Webmozart\Assert\Assert;
 
 final class GiftCardFactory implements GiftCardFactoryInterface
@@ -24,12 +23,12 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         private readonly FactoryInterface $decoratedFactory,
         private readonly GiftCardCodeGeneratorInterface $giftCardCodeGenerator,
         private readonly GiftCardConfigurationProviderInterface $giftCardConfigurationProvider,
-        /** @psalm-suppress DeprecatedInterface */
-        private readonly DateTimeProvider $dateTimeProvider,
+        private readonly ClockInterface $clock,
         private readonly CurrencyContextInterface $currencyContext,
     ) {
     }
 
+    #[\Override]
     public function createNew(): GiftCardInterface
     {
         /** @var GiftCardInterface $giftCard */
@@ -39,6 +38,7 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         return $giftCard;
     }
 
+    #[\Override]
     public function createForChannel(ChannelInterface $channel): GiftCardInterface
     {
         $giftCard = $this->createNew();
@@ -47,18 +47,15 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         $channelConfiguration = $this->giftCardConfigurationProvider->getConfigurationForGiftCard($giftCard);
         $validityPeriod = $channelConfiguration->getDefaultValidityPeriod();
         if (null !== $validityPeriod) {
-            $today = $this->dateTimeProvider->today();
-            // Since the interface is types to DateTimeInterface, the modify method does not exist
-            // whereas it does in DateTime and DateTimeImmutable
-            Assert::isInstanceOf($today, DateTimeImmutable::class);
-            /** @var DateTimeInterface $today */
-            $today = $today->modify('+' . $validityPeriod);
+            $today = $this->clock->now()->modify('+' . $validityPeriod);
+            Assert::notFalse($today);
             $giftCard->setExpiresAt($today);
         }
 
         return $giftCard;
     }
 
+    #[\Override]
     public function createForChannelFromAdmin(ChannelInterface $channel): GiftCardInterface
     {
         $giftCard = $this->createForChannel($channel);
@@ -67,6 +64,7 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         return $giftCard;
     }
 
+    #[\Override]
     public function createFromOrderItemUnit(OrderItemUnitInterface $orderItemUnit): GiftCardInterface
     {
         /** @var OrderInterface|null $order */
@@ -84,6 +82,7 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         return $giftCard;
     }
 
+    #[\Override]
     public function createFromOrderItemUnitAndCart(
         OrderItemUnitInterface $orderItemUnit,
         OrderInterface $cart,
@@ -104,6 +103,7 @@ final class GiftCardFactory implements GiftCardFactoryInterface
         return $giftCard;
     }
 
+    #[\Override]
     public function createExample(): GiftCardInterface
     {
         $giftCard = $this->createNew();

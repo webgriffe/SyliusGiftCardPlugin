@@ -1,0 +1,9 @@
+<div class="dropdown drop">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ ux_icon('tabler:plus') }}
+        {{ 'sylius.ui.create'|trans }}
+    </button>
+    <div class="dropdown-menu dropdown-menu-end">
+        {{ render(url('setono_sylius_gift_card_admin_gift_card_create_for_channel')) }}
+    </div>
+</div>
