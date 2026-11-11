@@ -40,7 +40,9 @@ imports:
 
 ### (Optional) Import fixtures 
 
-If you wish to have some gift cards to play with in your application during development.
+If you wish to have some gift cards and gift card products to play with in your application during development.
+The products are added to a "Gift cards" taxon under the `category` menu taxon and to the `FASHION_WEB` channel,
+so they rely on the Sylius default fixture suite.
 
 ```yaml
 # config/packages/setono_sylius_gift_card.yaml

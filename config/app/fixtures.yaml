@@ -38,3 +38,72 @@ sylius_fixtures:
                                 background_image: '@SetonoSyliusGiftCardPlugin/fixtures/default_background.png'
                                 enabled: true
                                 default: true
+
+                setono_gift_card_taxon:
+                    name: taxon
+                    options:
+                        custom:
+                            category:
+                                code: 'category'
+                                name: 'Category'
+                                translations:
+                                    en_US:
+                                        name: 'Category'
+                                    fr_FR:
+                                        name: 'Catégorie'
+                                children:
+                                    -   code: 'gift_cards'
+                                        translations:
+                                            en_US:
+                                                name: 'Gift cards'
+                                                slug: 'gift-cards'
+                                            fr_FR:
+                                                name: 'Cartes cadeaux'
+                                                slug: 'cartes-cadeaux'
+
+                setono_gift_card_product_option:
+                    name: product_option
+                    options:
+                        custom:
+                            -   name: 'Gift card value'
+                                code: 'gift_card_value'
+                                values:
+                                    gift_card_value_25: '$25'
+                                    gift_card_value_50: '$50'
+                                    gift_card_value_100: '$100'
+
+                setono_gift_card_product:
+                    options:
+                        custom:
+                            -   name: 'Gift Card $50'
+                                code: 'gift_card_50'
+                                channels:
+                                    - 'FASHION_WEB'
+                                main_taxon: 'gift_cards'
+                                taxons:
+                                    - 'gift_cards'
+                                amount: 50
+
+                            -   name: 'Gift Card'
+                                code: 'gift_card'
+                                channels:
+                                    - 'FASHION_WEB'
+                                main_taxon: 'gift_cards'
+                                taxons:
+                                    - 'gift_cards'
+                                product_options:
+                                    - 'gift_card_value'
+                                amounts:
+                                    gift_card_value_25: 25
+                                    gift_card_value_50: 50
+                                    gift_card_value_100: 100
+
+                            -   name: 'Gift Card Custom Amount'
+                                code: 'gift_card_custom_amount'
+                                channels:
+                                    - 'FASHION_WEB'
+                                main_taxon: 'gift_cards'
+                                taxons:
+                                    - 'gift_cards'
+                                amount_configurable: true
+                                amount: 50
