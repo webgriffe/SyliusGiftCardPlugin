@@ -13,10 +13,10 @@ use Setono\SyliusGiftCardPlugin\Form\Extension\AddToCartTypeExtension;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardInterface;
 use Setono\SyliusGiftCardPlugin\Order\AddToCartCommand;
 use Setono\SyliusGiftCardPlugin\Order\GiftCardInformationInterface;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItem;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItemUnit;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Product;
+use Setono\SyliusGiftCardPlugin\Tests\TestApplication\Entity\Order;
+use Setono\SyliusGiftCardPlugin\Tests\TestApplication\Entity\OrderItem;
+use Setono\SyliusGiftCardPlugin\Tests\TestApplication\Entity\OrderItemUnit;
+use Setono\SyliusGiftCardPlugin\Tests\TestApplication\Entity\Product;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -38,10 +38,13 @@ final class AddToCartTypeExtensionTest extends TestCase
 
         $orderItem->getUnits()->willReturn(new ArrayCollection([$orderItemUnit->reveal()]));
 
+        $variant = $this->prophesize(ProductVariantInterface::class);
+        $orderItem->getVariant()->willReturn($variant);
+
         $product = $this->prophesize(Product::class);
         $product->isGiftCard()->willReturn(true);
         $product->isGiftCardAmountConfigurable()->willReturn(true);
-        $orderItem->getProduct()->willReturn($product);
+        $variant->getProduct()->willReturn($product);
 
         $giftCardInformation->getAmount()->willReturn(100);
         $giftCardInformation->getCustomMessage()->willReturn('custom message');
@@ -85,9 +88,9 @@ final class AddToCartTypeExtensionTest extends TestCase
         $product = $this->prophesize(Product::class);
         $product->isGiftCard()->willReturn(true);
         $product->isGiftCardAmountConfigurable()->willReturn(false);
-        $orderItem->getProduct()->willReturn($product);
         $cart->getChannel()->willReturn($channel);
         $orderItem->getVariant()->willReturn($variant);
+        $variant->getProduct()->willReturn($product);
         $variant->getChannelPricingForChannel($channel)->willReturn($channelPricing);
         $channelPricing->getPrice()->willReturn(100);
 

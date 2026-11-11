@@ -1,0 +1,77 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.product.show.content.info.summary.add_to_cart':
+            setono_sylius_gift_card_information:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Product/Show/_addToCartGiftCardInformation.html.twig'
+                priority: 50
+
+        'sylius_shop.cart.index.content.form.sections.general.summary':
+            setono_sylius_gift_card_applied_gift_cards:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Cart/Summary/_appliedGiftCards.html.twig'
+                priority: 150
+
+        'sylius_shop.cart.index.content':
+            setono_sylius_gift_card_add_gift_card_to_order:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Cart/Summary/_addGiftCardToOrder.html.twig'
+                priority: 50
+
+        'sylius_admin.order.show.content.sections.summary':
+            setono_sylius_gift_card_total:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/Order/Show/Summary/_giftCardTotal.html.twig'
+                priority: 50
+
+        'sylius_shop.shared.order.show.summary.table_summary':
+            setono_sylius_gift_card_total:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Order/Show/Summary/_giftCardTotal.html.twig'
+                priority: 250
+
+        'setono_sylius_gift_card.shop.account.gift_card.index.content':
+            breadcrumbs:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Account/GiftCard/Index/_breadcrumbs.html.twig'
+                priority: 200
+            menu:
+                template: '@SyliusShop/account/common/content/menu.html.twig'
+                priority: 100
+            main:
+                template: '@SyliusShop/account/common/content/main.html.twig'
+                priority: 0
+
+        'setono_sylius_gift_card.shop.account.gift_card.index.content.main':
+            grid:
+                template: '@SyliusShop/shared/grid.html.twig'
+                priority: 0
+
+        'setono_sylius_gift_card.shop.account.gift_card.index.content.main.header':
+            title:
+                template: '@SetonoSyliusGiftCardPlugin/Shop/Account/GiftCard/Index/_title.html.twig'
+                priority: 100
+
+        'sylius_admin.gift_card.update.content.form.sections.general':
+            default:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCard/_form.html.twig'
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.create.content.form.sections.general':
+            default:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCardConfiguration/_form.html.twig'
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.update.content.form.sections.general':
+            default:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCardConfiguration/_form.html.twig'
+                priority: 0
+
+        'setono_sylius_gift_card_admin_gift_card_create.create.content.form.sections.general':
+            default:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCard/_form.html.twig'
+                priority: 0
+
+        'sylius_admin.product.create.content.form.sections.general':
+            setono_sylius_gift_card:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/Product/Form/Sections/General/_giftCard.html.twig'
+                priority: 350
+
+        'sylius_admin.product.update.content.form.sections.general':
+            setono_sylius_gift_card:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/Product/Form/Sections/General/_giftCard.html.twig'
+                priority: 350

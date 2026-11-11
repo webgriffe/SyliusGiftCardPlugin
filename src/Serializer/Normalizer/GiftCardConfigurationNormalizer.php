@@ -8,11 +8,11 @@ use ArrayObject;
 use Setono\SyliusGiftCardPlugin\Exception\UnexpectedTypeException;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardConfigurationInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Webmozart\Assert\Assert;
 
-final class GiftCardConfigurationNormalizer implements ContextAwareNormalizerInterface
+final class GiftCardConfigurationNormalizer implements NormalizerInterface
 {
     private ObjectNormalizer $objectNormalizer;
 
@@ -31,12 +31,14 @@ final class GiftCardConfigurationNormalizer implements ContextAwareNormalizerInt
     }
 
     /**
-     * @param GiftCardConfigurationInterface|mixed $object
-     * @param string $format
+     * @param GiftCardConfigurationInterface|mixed $data
+     * @param array<string, mixed> $context
      */
-    public function normalize($object, $format = null, array $context = []): array
+    #[\Override]
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
-        Assert::isInstanceOf($object, GiftCardConfigurationInterface::class);
+        Assert::isInstanceOf($data, GiftCardConfigurationInterface::class);
+        $object = $data;
 
         $data = $this->objectNormalizer->normalize($object, $format, $context);
         if (!is_array($data) && !$data instanceof ArrayObject) {
@@ -67,11 +69,8 @@ final class GiftCardConfigurationNormalizer implements ContextAwareNormalizerInt
         return $data;
     }
 
-    /**
-     * @param mixed $data
-     * @param string $format
-     */
-    public function supportsNormalization($data, $format = null, array $context = []): bool
+    #[\Override]
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         $groups = (array) ($context['groups'] ?? []);
 
@@ -80,5 +79,13 @@ final class GiftCardConfigurationNormalizer implements ContextAwareNormalizerInt
             $groups,
             true,
         );
+    }
+
+    #[\Override]
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            GiftCardConfigurationInterface::class => false,
+        ];
     }
 }

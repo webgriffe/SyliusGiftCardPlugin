@@ -1,0 +1,4 @@
+{% set visible = options.visible is defined ? options.visible : true %}
+{% if visible %}
+    {% include '@SyliusAdmin/shared/grid/action/delete.html.twig' %}
+{% endif %}
