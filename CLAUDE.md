@@ -58,7 +58,7 @@ Gift cards render to PDF via knp-snappy/wkhtmltopdf (`Renderer/PdfRenderer`), wi
 
 ### UI hooks
 
-Sylius 2 replaced the old `sylius_ui: events:` (SonataBlock-style) system with `sylius/twig-hooks`. `config/sylius_ui.yaml` (filename kept for continuity) now declares `sylius_twig_hooks` entries for the shop add-to-cart gift-card fields and the cart-summary applied-gift-cards block. The admin CRUD javascripts (image preview, live PDF rendering, send-customer-email checkbox) and the shop account gift card index hooks still use the removed block system and need porting to twig-hooks — see the `TODO` comment in `config/app/config.yaml`.
+Sylius 2 replaced the old `sylius_ui: events:` (SonataBlock-style) system with `sylius/twig-hooks`. `config/sylius_ui.yaml` (filename kept for continuity) now declares all the plugin's `sylius_twig_hooks` entries (shop add-to-cart fields, cart gift card form and summary, order totals, shop account gift card index, admin form sections). The old jQuery admin/shop JS files are gone: the live PDF preview is a small inline script in `templates/Admin/GiftCardConfiguration/_form.html.twig`, applying a gift card code on the cart is a plain form POST, and `assets/{admin,shop}/entrypoint.js` are empty.
 
 ### Test layout
 

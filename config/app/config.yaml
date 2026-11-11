@@ -16,7 +16,3 @@ liip_imagine:
         setono_sylius_gift_card_background:
             filters:
                 thumbnail: { size: [1200], mode: inset }
-
-# TODO the admin CRUD javascripts (image preview, live PDF rendering, send-customer-email
-# checkbox) and the shop account gift card index hooks used the removed sylius_ui "events"
-# block system (SonataBlock-style). They still need to be ported to sylius/twig-hooks.
